@@ -1,7 +1,10 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 class note {
     String title;
@@ -14,6 +17,13 @@ class note {
         content = b;
         category = c;
         timestamp = LocalDateTime.now();
+    }
+
+    public note(String a, String b, String c, LocalDateTime timestamp) {
+        this.title = a;
+        this.content = b;
+        this.category = c;
+        this.timestamp = timestamp;
     }
 
     public String toString() {
@@ -39,8 +49,59 @@ class NoteApp {
     }
 
     void viewNotes(Scanner sc) {
-        for (int i = 0; i < notes.size(); i++) {
-            System.out.println(notes.get(i).title + "    |    " + notes.get(i).timestamp);
+        while (true) {
+
+            for (int i = 0; i < notes.size(); i++) {
+            System.out.println(i + 1 + ") " + notes.get(i).title + "    |    " + notes.get(i).timestamp);
+            }
+            System.out.println("-1 to exit");
+    
+            int c = sc.nextInt();
+            sc.nextLine();
+
+            if (c - 1 < notes.size() && c >= 0) {
+                System.out.println(notes.get(c - 1));
+            }
+            else{
+                break;
+            }
+            
+
+        }
+        
+    }
+
+    void saveFile() {
+        try {
+            FileWriter fw = new FileWriter("notes.txt");
+
+            for (int i = 0; i < notes.size(); i++) {
+                note n = notes.get(i);
+                String line = n.title + "|" + n.content + "|" + n.category + "|" + n.timestamp;
+                fw.write(line + "\n");
+            }
+            
+
+            fw.close();
+        }
+        catch (IOException e) {
+            System.out.println("error occured");
+        }
+    }
+
+    void loadFile() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("notes.txt"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                note n = new note(parts[0], parts[1], parts[2], LocalDateTime.parse(parts[3]));
+                notes.add(n);
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            System.out.println("error occured");
         }
     }
 }
@@ -54,10 +115,15 @@ class main {
 
         NoteApp app = new NoteApp();
 
+        app.loadFile();
+
         ArrayList<String> menu = new ArrayList<>();
 
         menu.add("(1) add note");
         menu.add("(2) view notes");
+        menu.add("(3) save");
+        menu.add("(4) exit");
+        
 
         while (true) {
             for (int i = 0; i < menu.size(); i++) {
@@ -72,6 +138,12 @@ class main {
             }
             else if (c == 2) {
                 app.viewNotes(sc);
+            }
+            else if (c == 3) {
+                app.saveFile();
+            }
+            else if (c == 4) {
+                break;
             }
         }
 
