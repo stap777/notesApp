@@ -63,6 +63,7 @@ class NoteApp {
                 System.out.println(notes.get(c - 1));
             }
             else{
+                System.out.println("invalid input");
                 break;
             }
             
@@ -121,8 +122,7 @@ class main {
 
         menu.add("(1) add note");
         menu.add("(2) view notes");
-        menu.add("(3) save");
-        menu.add("(4) exit");
+        menu.add("(3) exit");
         
 
         while (true) {
@@ -140,12 +140,14 @@ class main {
                 app.viewNotes(sc);
             }
             else if (c == 3) {
-                app.saveFile();
-            }
-            else if (c == 4) {
                 break;
             }
+            else {
+                System.out.println("invalid input");
+            }
         }
+
+        app.saveFile();
 
     }
 }
