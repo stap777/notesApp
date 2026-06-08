@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,7 +28,13 @@ class note {
     }
 
     public String toString() {
-        return title + "  |  " + content + "  |  " + category +"  |  " + timestamp;
+        DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd MMM yyyy  HH:mm");
+
+        
+        return title + "  |  "
+        + content + "  |  "
+        + category +"  |  "
+        + timestamp.format(formater);
     }
 }
 
