@@ -51,23 +51,66 @@ class NoteApp {
     void viewNotes(Scanner sc) {
         while (true) {
 
+            System.out.println("-----------------------------------------------------------------------------------");
+
             for (int i = 0; i < notes.size(); i++) {
-            System.out.println(i + 1 + ") " + notes.get(i).title + "    |    " + notes.get(i).timestamp);
+                System.out.println(i + 1 + ") " + notes.get(i).title + "    |    " + notes.get(i).timestamp);
             }
-            System.out.println("-1 to exit");
+
+            System.out.println("-----------------------------------------------------------------------------------");
+            System.out.println((notes.size() + 1) + ") " + "to filter by category");
+
+            System.out.println("-----------------------------------------------------------------------------------");
+
+            System.out.println((notes.size() + 2) + ") " + "to search");
+            System.out.println("-----------------------------------------------------------------------------------");
     
+            System.out.println("-1) to exit");
+
+            System.out.println("-----------------------------------------------------------------------------------");
+
             int c = sc.nextInt();
             sc.nextLine();
 
-            if (c - 1 < notes.size() && c >= 0) {
+            if (c - 1 < notes.size() && c >= 1) {
                 System.out.println(notes.get(c - 1));
             }
-            else{
-                System.out.println("invalid input");
-                break;
+            else if (c == notes.size() + 1) {
+                System.out.println("category: ");
+                String cat = sc.nextLine();
+                boolean isvalid = false;
+                for (int i = 0; i < notes.size(); i++) {
+                    if (notes.get(i).category.equalsIgnoreCase(cat)) {
+                        System.out.println(i + 1 + ") " + notes.get(i).title + "    |    " + notes.get(i).timestamp);
+                        isvalid = true;
+                    }
+                }
+                System.out.println("-----------------------------------------------------------------------------------");
+                if (!isvalid) {
+                    System.out.println("cateory not foind");
+                }
             }
-            
-
+            else if (c == notes.size() + 2) {
+                System.out.println("Title: ");
+                String Title = sc.nextLine();
+                boolean isvalid = false;
+                for (int i = 0; i < notes.size(); i++) {
+                    if (notes.get(i).title.equalsIgnoreCase(Title)) {
+                        System.out.println(notes.get(i));
+                        isvalid = true;
+                        break;
+                    }
+                }
+                if (!isvalid) {
+                    System.out.println("title not found");
+                }
+            }
+            else if (c == -1) {
+                break;
+            }    
+            else {
+                System.out.println("-----------------------------------------------------------------------------------"); 
+            }
         }
         
     }
@@ -113,7 +156,7 @@ class NoteApp {
         System.out.println("Remove: ");
         int index = sc.nextInt();
         sc.nextLine();
-        if (index < notes.size() && index >= 0) {
+        if (index <= notes.size() && index >= 0) {
             notes.remove(index - 1);
         }
         else {
