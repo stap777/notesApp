@@ -105,6 +105,21 @@ class NoteApp {
             System.out.println("error occured");
         }
     }
+
+    void removeNote(Scanner sc) {
+        for (int i = 0; i < notes.size(); i++) {
+            System.out.println(i + 1 + ") " + notes.get(i).title + "    |    " + notes.get(i).timestamp);
+        }
+        System.out.println("Remove: ");
+        int index = sc.nextInt();
+        sc.nextLine();
+        if (index < notes.size() && index >= 0) {
+            notes.remove(index - 1);
+        }
+        else {
+            System.out.println("invalid input");
+        }
+    }
 }
 
 class main {
@@ -122,7 +137,8 @@ class main {
 
         menu.add("(1) add note");
         menu.add("(2) view notes");
-        menu.add("(3) exit");
+        menu.add("(3) delete Note");
+        menu.add("(4) exit");
         
 
         while (true) {
@@ -140,6 +156,9 @@ class main {
                 app.viewNotes(sc);
             }
             else if (c == 3) {
+                app.removeNote(sc);
+            }
+            else if (c == 4) {
                 break;
             }
             else {
